@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Robinhood MCP Bridge Docs</title>
+    <title>Robinhood MCP Bridge | Programmatic Trading Endpoint</title>
     <meta
       name="description"
-      content="Lean setup and reference docs for the local Robinhood MCP Bridge."
+      content="Turn Robinhood's official Agentic Trading MCP into a local programmatic trading endpoint."
     />
     <meta name="color-scheme" content="dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +24,7 @@
           <span class="brand-mark">rh</span>
           <span>
             <strong>Robinhood MCP Bridge</strong>
-            <small>Local Streamable HTTP MCP</small>
+            <small>Programmatic trading endpoint</small>
           </span>
         </a>
         <button class="menu-button" type="button" data-menu-button aria-expanded="false">
@@ -55,12 +55,14 @@
         <section class="hero">
           <div class="eyebrow">
             <span class="status-dot"></span>
-            Docker-first local MCP bridge
+            Official MCP, local API surface
           </div>
-          <h1>Connect MCP clients to Robinhood Agentic Trading in one command.</h1>
+          <h1>Turn Robinhood's Agentic MCP into a local trading endpoint.</h1>
           <p>
-            A lean local bridge, Python SDK, and safety layer for Robinhood's official
-            Trading MCP. No private Robinhood web or mobile APIs.
+            Robinhood long lacked a public equities algo-trading API for developers.
+            Agentic Trading changes the surface area: this bridge wraps Robinhood's
+            official MCP in a Dockerized localhost endpoint, Python SDK, and order
+            guardrails. No private web or mobile API scraping.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#quickstart">Start setup</a>
@@ -72,20 +74,37 @@
 
         <section class="metric-grid" aria-label="Project highlights">
           <article class="metric-card">
-            <span>Endpoint</span>
-            <strong>127.0.0.1:8080</strong>
-            <p>Loopback-only by default for local MCP clients.</p>
+            <span>New surface</span>
+            <strong>MCP to API</strong>
+            <p>Expose Robinhood's agent endpoint as a local Streamable HTTP target.</p>
           </article>
           <article class="metric-card">
-            <span>Setup</span>
-            <strong>make bootstrap</strong>
-            <p>Creates state, authenticates, starts, and checks readiness.</p>
+            <span>Why it matters</span>
+            <strong>Equities automation</strong>
+            <p>Program against the official Agentic Trading path instead of reverse engineering.</p>
           </article>
           <article class="metric-card">
-            <span>Trading</span>
-            <strong>Dry-run first</strong>
-            <p>Real orders require explicit live settings and a fresh review.</p>
+            <span>Default posture</span>
+            <strong>Guarded local bridge</strong>
+            <p>Loopback-only Docker, dry-run defaults, review-before-place order flow.</p>
           </article>
+        </section>
+
+        <section class="doc-section split-card">
+          <div>
+            <span class="section-kicker">Why this exists</span>
+            <h2>Robinhood built for agents. This makes it usable from code.</h2>
+            <p>
+              MCP is designed for agent tools, not traditional algo-trading workflows.
+              The bridge adapts that official Robinhood MCP into a simple local endpoint
+              that scripts, MCP clients, and Python code can call consistently.
+            </p>
+          </div>
+          <div class="command-list">
+            <div><code>before</code><span>No public equities trading API; community tools leaned on unsupported private endpoints.</span></div>
+            <div><code>now</code><span>Robinhood Agentic Trading exposes an official MCP for dedicated agentic accounts.</span></div>
+            <div><code>bridge</code><span>Docker auth, local endpoint, Python SDK, tool allowlist, and trading guardrails.</span></div>
+          </div>
         </section>
 
         <section id="quickstart" class="doc-section">
