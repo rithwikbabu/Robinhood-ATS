@@ -1,0 +1,23 @@
+include README.md
+include CHANGELOG.md
+include LICENSE
+include CONTRIBUTING.md
+include SECURITY.md
+include RELEASE.md
+include Dockerfile
+include docker-compose.yml
+include Makefile
+include .env.example
+include .dockerignore
+include .editorconfig
+include .gitattributes
+include .gitignore
+include .python-version
+recursive-include examples *.py *.json *.md
+recursive-include docs *.md
+recursive-include tests *.py
+recursive-include robinhood_mcp_bridge py.typed
+recursive-include .github * *.md *.yml *.yaml
+global-exclude __pycache__/*
+global-exclude *.py[cod]
+global-exclude .DS_Store

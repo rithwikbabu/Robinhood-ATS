@@ -1,0 +1,33 @@
+services:
+  robinhood-mcp:
+    build: .
+    image: robinhood-mcp-bridge:local
+    ports:
+      - "127.0.0.1:${MCP_HOST_PORT:-8080}:8080"
+    environment:
+      ROBINHOOD_MCP_URL: "${ROBINHOOD_MCP_URL:-https://agent.robinhood.com/mcp/trading}"
+      MCP_HOST_PORT: "${MCP_HOST_PORT:-8080}"
+      HOST: "0.0.0.0"
+      PORT: "8080"
+      ALLOW_DOCKER_LOOPBACK_BIND: "true"
+      STATE_DIR: "/state"
+      AUDIT_LOG_PATH: "/state/audit.jsonl"
+      AUTH_CALLBACK_BIND_HOST: "0.0.0.0"
+      AUTH_CALLBACK_PORT: "8765"
+      AUTH_REDIRECT_URI: "${AUTH_REDIRECT_URI:-http://127.0.0.1:8765/callback}"
+      DRY_RUN: "${DRY_RUN:-true}"
+      LIVE_TRADING: "${LIVE_TRADING:-false}"
+      MAX_ORDER_NOTIONAL_USD: "${MAX_ORDER_NOTIONAL_USD:-}"
+      SYMBOL_ALLOWLIST: "${SYMBOL_ALLOWLIST:-}"
+      MARKET_HOURS_ONLY: "${MARKET_HOURS_ONLY:-true}"
+      ALLOW_FRACTIONAL_EQUITIES: "${ALLOW_FRACTIONAL_EQUITIES:-true}"
+      LOCAL_MCP_BEARER_TOKEN: "${LOCAL_MCP_BEARER_TOKEN:-}"
+    volumes:
+      - ./.rh-mcp-state:/state
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=5).read()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped

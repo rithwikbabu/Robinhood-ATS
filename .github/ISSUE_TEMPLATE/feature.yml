@@ -1,0 +1,22 @@
+name: Feature request
+description: Request a small bridge, SDK, docs, or packaging improvement
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep requests aligned with the project boundary: official Robinhood MCP bridge, local safety controls, and a thin Python client.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user setup or usage problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What small change do you want?
+    validations:
+      required: true

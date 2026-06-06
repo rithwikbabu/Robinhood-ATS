@@ -1,0 +1,16 @@
+.git
+.idea
+.env
+tokens.json
+oauth_client.json
+oauth_discovery.json
+audit.jsonl
+.pytest_cache
+.mypy_cache
+.ruff_cache
+__pycache__
+*.pyc
+.rh-mcp-state
+dist
+build
+*.egg-info
