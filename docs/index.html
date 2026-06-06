@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Robinhood MCP Bridge Docs</title>
+    <meta
+      name="description"
+      content="Lean setup and reference docs for the local Robinhood MCP Bridge."
+    />
+    <meta name="color-scheme" content="dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Robinhood MCP Bridge home">
+          <span class="brand-mark">rh</span>
+          <span>
+            <strong>Robinhood MCP Bridge</strong>
+            <small>Local Streamable HTTP MCP</small>
+          </span>
+        </a>
+        <button class="menu-button" type="button" data-menu-button aria-expanded="false">
+          Menu
+        </button>
+        <nav class="topnav" data-nav>
+          <a href="#quickstart">Quickstart</a>
+          <a href="#connect">Connect</a>
+          <a href="#safety">Safety</a>
+          <a href="#reference">Reference</a>
+          <a class="pill-link" href="https://github.com/rithwikbabu/Robinhood-ATS">GitHub</a>
+        </nav>
+      </header>
+
+      <aside class="sidebar" aria-label="Documentation navigation">
+        <nav>
+          <a href="#quickstart">Quickstart</a>
+          <a href="#connect">Connect clients</a>
+          <a href="#python">Python SDK</a>
+          <a href="#safety">Safety model</a>
+          <a href="#configuration">Configuration</a>
+          <a href="#commands">Commands</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </nav>
+      </aside>
+
+      <main id="top" class="content">
+        <section class="hero">
+          <div class="eyebrow">
+            <span class="status-dot"></span>
+            Docker-first local MCP bridge
+          </div>
+          <h1>Connect MCP clients to Robinhood Agentic Trading in one command.</h1>
+          <p>
+            A lean local bridge, Python SDK, and safety layer for Robinhood's official
+            Trading MCP. No private Robinhood web or mobile APIs.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#quickstart">Start setup</a>
+            <a class="button secondary" href="https://github.com/rithwikbabu/Robinhood-ATS">
+              View source
+            </a>
+          </div>
+        </section>
+
+        <section class="metric-grid" aria-label="Project highlights">
+          <article class="metric-card">
+            <span>Endpoint</span>
+            <strong>127.0.0.1:8080</strong>
+            <p>Loopback-only by default for local MCP clients.</p>
+          </article>
+          <article class="metric-card">
+            <span>Setup</span>
+            <strong>make bootstrap</strong>
+            <p>Creates state, authenticates, starts, and checks readiness.</p>
+          </article>
+          <article class="metric-card">
+            <span>Trading</span>
+            <strong>Dry-run first</strong>
+            <p>Real orders require explicit live settings and a fresh review.</p>
+          </article>
+        </section>
+
+        <section id="quickstart" class="doc-section">
+          <div class="section-heading">
+            <span class="section-kicker">01</span>
+            <h2>Quickstart</h2>
+            <p>Clone, authenticate, start the bridge, and check it.</p>
+          </div>
+          <div class="steps">
+            <article class="step-card">
+              <span class="step-number">1</span>
+              <h3>Clone</h3>
+              <pre><code>git clone https://github.com/rithwikbabu/Robinhood-ATS.git
+cd Robinhood-ATS</code><button class="copy-button" data-copy>Copy</button></pre>
+            </article>
+            <article class="step-card">
+              <span class="step-number">2</span>
+              <h3>Bootstrap</h3>
+              <pre><code>make bootstrap</code><button class="copy-button" data-copy>Copy</button></pre>
+              <p>
+                This creates `.env`, creates `.rh-mcp-state/`, opens browser OAuth,
+                starts Docker Compose, and runs readiness checks.
+              </p>
+            </article>
+            <article class="step-card">
+              <span class="step-number">3</span>
+              <h3>Use the URL</h3>
+              <pre><code>make url</code><button class="copy-button" data-copy>Copy</button></pre>
+              <p>Default: <code>http://127.0.0.1:8080/mcp</code></p>
+            </article>
+          </div>
+        </section>
+
+        <section id="connect" class="doc-section two-column">
+          <div class="section-heading">
+            <span class="section-kicker">02</span>
+            <h2>Connect an MCP client</h2>
+            <p>Use Streamable HTTP. Keep the bridge local unless you add transport security.</p>
+          </div>
+          <div class="panel">
+            <h3>Basic config</h3>
+            <pre><code>{
+  "mcpServers": {
+    "robinhood": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:8080/mcp"
+    }
+  }
+}</code><button class="copy-button" data-copy>Copy</button></pre>
+          </div>
+          <div class="panel muted-panel">
+            <h3>With local bearer token</h3>
+            <pre><code>{
+  "mcpServers": {
+    "robinhood": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:8080/mcp",
+      "headers": {
+        "Authorization": "Bearer ${LOCAL_MCP_BEARER_TOKEN}"
+      }
+    }
+  }
+}</code><button class="copy-button" data-copy>Copy</button></pre>
+          </div>
+        </section>
+
+        <section id="python" class="doc-section split-card">
+          <div>
+            <span class="section-kicker">03</span>
+            <h2>Python SDK</h2>
+            <p>
+              Install the package when you want a small Python client or direct CLI usage.
+              Docker remains the recommended bridge runtime.
+            </p>
+          </div>
+          <div class="panel">
+            <pre><code>pip install robinhood-mcp-bridge</code><button class="copy-button" data-copy>Copy</button></pre>
+            <pre><code>from robinhood_mcp_bridge import RobinhoodMCPClient
+
+client = RobinhoodMCPClient()
+accounts = client.get_accounts()
+quotes = client.get_equity_quotes(symbols=["AAPL"])</code><button class="copy-button" data-copy>Copy</button></pre>
+          </div>
+        </section>
+
+        <section id="safety" class="doc-section">
+          <div class="section-heading">
+            <span class="section-kicker">04</span>
+            <h2>Safety model</h2>
+            <p>The default posture is read-oriented and local-first.</p>
+          </div>
+          <div class="card-grid">
+            <article class="info-card">
+              <h3>No private APIs</h3>
+              <p>Forwards to Robinhood's official Agentic Trading MCP endpoint only.</p>
+            </article>
+            <article class="info-card">
+              <h3>Loopback by default</h3>
+              <p>Docker publishes the local bridge on host loopback, not a public interface.</p>
+            </article>
+            <article class="info-card">
+              <h3>Order guardrails</h3>
+              <p>
+                `place_equity_order` requires live trading enabled, dry-run disabled, and a
+                matching recent `review_equity_order`.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Audit trail</h3>
+              <p>Local state and audit logs live in `.rh-mcp-state/` for Docker usage.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="configuration" class="doc-section">
+          <div class="section-heading">
+            <span class="section-kicker">05</span>
+            <h2>Configuration</h2>
+            <p>Most users only change ports or trading guardrails.</p>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Default</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>MCP_HOST_PORT</code></td>
+                  <td><code>8080</code></td>
+                  <td>Host port for the local MCP bridge.</td>
+                </tr>
+                <tr>
+                  <td><code>AUTH_HOST_PORT</code></td>
+                  <td><code>8765</code></td>
+                  <td>Temporary OAuth callback port during login.</td>
+                </tr>
+                <tr>
+                  <td><code>LOCAL_MCP_BEARER_TOKEN</code></td>
+                  <td>unset</td>
+                  <td>Optional bearer token for local MCP clients.</td>
+                </tr>
+                <tr>
+                  <td><code>DRY_RUN</code></td>
+                  <td><code>true</code></td>
+                  <td>Blocks forwarding real equity placement.</td>
+                </tr>
+                <tr>
+                  <td><code>LIVE_TRADING</code></td>
+                  <td><code>false</code></td>
+                  <td>Must be true before real equity orders can forward.</td>
+                </tr>
+                <tr>
+                  <td><code>SYMBOL_ALLOWLIST</code></td>
+                  <td>unset</td>
+                  <td>Optional comma-separated tradable symbols.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="inline-note">
+            Full reference: <a href="./configuration.md">configuration.md</a>
+          </p>
+        </section>
+
+        <section id="commands" class="doc-section">
+          <div class="section-heading">
+            <span class="section-kicker">06</span>
+            <h2>Commands</h2>
+            <p>Keep these close. They cover day-to-day usage.</p>
+          </div>
+          <div class="command-list">
+            <div><code>make bootstrap</code><span>First setup: build, auth, start, ready.</span></div>
+            <div><code>make ready</code><span>Run status, tools, and smoke checks.</span></div>
+            <div><code>make smoke</code><span>Check MCP handshake and tool exposure.</span></div>
+            <div><code>make logs</code><span>Follow bridge logs.</span></div>
+            <div><code>make stop</code><span>Stop the local bridge.</span></div>
+            <div><code>rh-mcp serve</code><span>Run the bridge without Docker.</span></div>
+          </div>
+          <p class="inline-note">Full reference: <a href="./commands.md">commands.md</a></p>
+        </section>
+
+        <section id="troubleshooting" class="doc-section">
+          <div class="section-heading">
+            <span class="section-kicker">07</span>
+            <h2>Troubleshooting</h2>
+            <p>Start with the checks. They are designed to be fast.</p>
+          </div>
+          <div class="card-grid">
+            <article class="info-card">
+              <h3>Auth missing</h3>
+              <pre><code>make bootstrap</code><button class="copy-button" data-copy>Copy</button></pre>
+            </article>
+            <article class="info-card">
+              <h3>Port busy</h3>
+              <pre><code>MCP_HOST_PORT=8081 make start
+AUTH_HOST_PORT=8766 make auth</code><button class="copy-button" data-copy>Copy</button></pre>
+            </article>
+            <article class="info-card">
+              <h3>Need a clean login</h3>
+              <pre><code>make reset-state
+make bootstrap</code><button class="copy-button" data-copy>Copy</button></pre>
+            </article>
+            <article class="info-card">
+              <h3>Inspect service</h3>
+              <pre><code>make ps
+make logs</code><button class="copy-button" data-copy>Copy</button></pre>
+            </article>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <p>
+            Independent open-source project. Not affiliated with, endorsed by, or maintained by
+            Robinhood.
+          </p>
+          <nav>
+            <a href="./quickstart.md">Quickstart</a>
+            <a href="./mcp-clients.md">MCP clients</a>
+            <a href="./sdk-reference.md">SDK</a>
+            <a href="./known-limits.md">Known limits</a>
+          </nav>
+        </footer>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
