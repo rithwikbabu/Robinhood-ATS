@@ -3,8 +3,11 @@
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![CI](https://github.com/rithwikbabu/Robinhood-ATS/actions/workflows/ci.yml/badge.svg)](https://github.com/rithwikbabu/Robinhood-ATS/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-black)](https://rithwikbabu.github.io/Robinhood-ATS/)
 
 Lean local MCP bridge and Python client for Robinhood Agentic Trading.
+
+Documentation: <https://rithwikbabu.github.io/Robinhood-ATS/>
 
 It gives you:
 
