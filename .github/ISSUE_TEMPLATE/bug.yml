@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a setup, bridge, Docker, auth, or SDK bug
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste tokens, account numbers, balances, screenshots with account data, `.env`, `.rh-mcp-state`, or audit logs.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Commands or steps that reproduce the issue.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `rh-mcp --version` if available.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted output
+      description: Paste only redacted command output.

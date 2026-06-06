@@ -1,0 +1,17 @@
+.rh-mcp-state/
+tokens.json
+oauth_client.json
+oauth_discovery.json
+audit.jsonl
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.env
+.idea/
